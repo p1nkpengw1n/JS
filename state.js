@@ -1,3 +1,5 @@
+import { Field } from './field.js';
+
 export const Difficulty = {
     EASY: 1,
     MEDIUM: 2,
@@ -13,6 +15,7 @@ export class AppState {
     status = Status.PLAYING;
     difficulty = undefined;
     boardSize = 0;
+    boardContents = [];
     board = [];
 
     constructor(difficulty) {
@@ -20,7 +23,7 @@ export class AppState {
         switch(difficulty) {
             case Difficulty.EASY:
                 this.boardSize = 5; 
-                this.board = [
+                this.boardContents = [
                     [0,0,0,2,0],
                     [0,1,0,0,0],
                     [0,0,2,0,0],
@@ -30,9 +33,9 @@ export class AppState {
                 break;
             case Difficulty.MEDIUM:
                 this.boardSize = 9;
-                this.board = [
+                this.boardContents = [
                     [2,0,0,9,0,0,0,5,0],
-                    [1,0,0,8,0,11,0,0,0],
+                    [1,0,0,8,0,11,0,0,5],
                     [0,2,0,0,6,0,7,0,0],
                     [0,0,0,0,0,11,0,10,0],
                     [0,0,0,7,0,0,0,0,0],
@@ -44,7 +47,7 @@ export class AppState {
                 break;
             case Difficulty.HARD:
                 this.boardSize = 9;
-                this.board = [
+                this.boardContents = [
                     [1,0,0,0,3,0,5,0,2],
                     [0,0,0,0,0,0,8,5,0],
                     [7,4,0,6,0,0,0,0,0],
@@ -56,6 +59,12 @@ export class AppState {
                     [0,0,0,6,0,0,0,0,8]
                 ];
                 break;
+        }
+        for(let x=0; x<this.boardSize; x++) {
+            this.board.push([]);
+            for(let y=0; y<this.boardSize; y++) {
+                this.board[x][y] = new Field(this.boardContents[x][y]>0, this.boardContents[x][y]>0 ? this.boardContents[x][y] : "");
+            }
         }
     }
 }
