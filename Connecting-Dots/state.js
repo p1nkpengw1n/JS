@@ -6,13 +6,7 @@ export const Difficulty = {
     HARD: 4
 }
 
-export const Status = {
-    PLAYING: 1,
-    WIN: 2
-}
-
 export class AppState {
-    status = Status.PLAYING;
     difficulty = undefined;
     boardSize = 0;
     boardContents = [];
