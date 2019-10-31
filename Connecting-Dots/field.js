@@ -1,9 +1,9 @@
 export class Field {
-    isNumber = false;
     fieldText = "";
+    color = "";
 
-    constructor(isNumber, fieldText) {
-        this.isNumber = isNumber;
+    constructor(fieldText, color) {
         this.fieldText = fieldText;
+        this.color = color;
     }
 }

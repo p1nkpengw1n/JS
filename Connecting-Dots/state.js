@@ -57,7 +57,7 @@ export class AppState {
         for(let x=0; x<this.boardSize; x++) {
             this.board.push([]);
             for(let y=0; y<this.boardSize; y++) {
-                this.board[x][y] = new Field(this.boardContents[x][y]>0, this.boardContents[x][y]>0 ? this.boardContents[x][y] : "");
+                this.board[x][y] = new Field(this.boardContents[x][y]>0 ? this.boardContents[x][y] : "", "");
             }
         }
     }
