@@ -1,10 +1,36 @@
 import { AppState, Difficulty } from './state.js';
 import { render } from './render.js';
-import { delegate, delColorOnRightClick } from './utils.js';
+import { delegate } from './utils.js';
 
 const main = document.querySelector("main");
+const buttonsAtStart = document.querySelectorAll("button");
 
-let state = new AppState(Difficulty.MEDIUM);
+let state, table;
+
+for(let button of buttonsAtStart) {
+    button.addEventListener("click", (event) => {
+        switch(event.target.innerHTML) {
+            case "Easy":
+                state = new AppState(Difficulty.EASY);
+                render(main, state);
+                table = document.querySelector("table");
+                addEventListenerToTableElement();
+                break;
+            case "Medium":
+                state = new AppState(Difficulty.MEDIUM);
+                render(main, state);
+                table = document.querySelector("table");
+                addEventListenerToTableElement();
+                break;
+            case "Hard":
+                state = new AppState(Difficulty.HARD);
+                render(main, state);
+                table = document.querySelector("table");
+                addEventListenerToTableElement();
+                break;
+        }
+    });
+}
 
 let isBlocked = false;
 
@@ -12,7 +38,32 @@ let currentColor = "";
 
 let paths = [];
 
-render(main, state);
+export function addButtonListeners(buttons) {
+    for(let button of buttons) {
+        button.addEventListener("click", (event) => {
+            switch(event.target.innerHTML) {
+                case "Easy":
+                    state = new AppState(Difficulty.EASY);
+                    render(main, state);
+                    table = document.querySelector("table");
+                    addEventListenerToTableElement();
+                    break;
+                case "Medium":
+                    state = new AppState(Difficulty.MEDIUM);
+                    render(main, state);
+                    table = document.querySelector("table");
+                    addEventListenerToTableElement();
+                    break;
+                case "Hard":
+                    state = new AppState(Difficulty.HARD);
+                    render(main, state);
+                    table = document.querySelector("table");
+                    addEventListenerToTableElement();
+                    break;
+            }
+        });
+    }
+}
 
 function handleMouseDown(event) {
     event.preventDefault();
@@ -96,6 +147,7 @@ function handleMouseOver(event) {
     if(event.buttons !== 1 || (event.buttons === 1 && event.target.innerHTML !== ""  && event.target.style.backgroundColor !== "")) {
         for(let path of paths) {
             path.style.backgroundColor = "";
+            state.board[y][x].color = "";
         }
         currentColor = "";
         while(paths.length > 0) {
@@ -106,19 +158,20 @@ function handleMouseOver(event) {
     if(event.target.style.backgroundColor === event.relatedTarget.style.backgroundColor && event.target.innerHTML === "" 
         && event.target.style.backgroundColor !== "") {
         let cell = paths.pop();
-        if(cell !== event.target) {
+        if(cell !== event.target && cell !== undefined) {
             cell.style.backgroundColor = "";
+            state.board[y][x].color = "";
         }
         return;
     }
     if(event.target.style.backgroundColor !== event.relatedTarget.style.backgroundColor && event.target.style.backgroundColor !== "") {
-        if(isBlocked && event.target.style.backgroundColor === paths[0].style.backgroundColor) {
-            isBlocked = false;
-            console.log(isBlocked);
+        if(isBlocked && paths[0] !== undefined) {
+           if(event.target.style.backgroundColor === paths[0].style.backgroundColor) {
+                isBlocked = false;
+            }
         }
         else {
             isBlocked = true;
-            console.log(isBlocked);
             return;
         }
     }
@@ -275,7 +328,7 @@ function handleMouseOver(event) {
             paths.pop();
         }
         if(checkWin()) {
-            console.log("win");
+            alert("You win!!");
         }
         return;
     }
@@ -293,22 +346,32 @@ delegate(main,"mouseup","td",handleMouseUp);
 function handleRightClick(event) {
     event.preventDefault();
     let color = event.target.style.backgroundColor;
-    delColorOnRightClick(color);
+    let cells = document.querySelectorAll("td");
+    for(let cell of cells) {
+        if(cell.style.backgroundColor === color) {
+            let x,y;
+            x = cell.parentNode.rowIndex;
+            y = cell.cellIndex;
+            cell.style.backgroundColor = "";
+            state.board[y][x].color = "";
+        }
+    }
 }
 delegate(main,"contextmenu","td",handleRightClick);
 
-const table = document.querySelector("table");
-table.addEventListener("mouseleave", (e) => {
-    if(e.buttons === 1){
-        for(let path of paths) {
-            path.style.backgroundColor = "";
-        }
-        currentColor = "";
-        while(paths.length > 0) {
-            paths.pop();
-        }
-    } 
-});
+function addEventListenerToTableElement() {
+    table.addEventListener("mouseleave", (event) => {
+        if(event.buttons === 1){
+            for(let path of paths) {
+                path.style.backgroundColor = "";
+            }
+            currentColor = "";
+            while(paths.length > 0) {
+                paths.pop();
+            }
+        } 
+    });
+} 
 
 function checkWin() {
     for(let i=0; i<state.boardSize; i++) {

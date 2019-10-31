@@ -12,12 +12,3 @@ export function delegate(parent, type, selector, fn) {
     
     parent.addEventListener(type, delegatedFunction);
 }
-
-export function delColorOnRightClick(color) {
-    let cells = document.querySelectorAll("td");
-    for(let cell of cells) {
-        if(cell.style.backgroundColor === color) {
-            cell.style.backgroundColor = "";
-        }
-    }
-}
