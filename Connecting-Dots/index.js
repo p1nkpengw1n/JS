@@ -112,23 +112,26 @@ delegate(main, "mousedown", "td", handleMouseDown);
 
 function handleMouseOver(event) {
     event.preventDefault();
-
-    let x, y;
-    x = event.target.parentNode.rowIndex;
-    y = event.target.cellIndex;
-
-    if (event.buttons !== 1 || (event.buttons === 1 && event.target.innerHTML !== "" && event.target.style.backgroundColor !== "")) {
-        for (let path of paths) {
-            path.style.backgroundColor = "";
-            state.board[y][x].color = "";
-        }
-        currentColor = "";
-        while (paths.length > 0) {
-            paths.pop();
-        }
-        return;
-    }
     if (paths.length > 0) {
+
+        let x, y;
+        x = event.target.parentNode.rowIndex;
+        y = event.target.cellIndex;
+
+        if (event.buttons !== 1 || (event.buttons === 1 && event.target.innerHTML !== "" && event.target.style.backgroundColor !== "")) {
+            for (let path of paths) {
+                let x, y;
+                x = path.parentNode.rowIndex;
+                y = path.cellIndex;
+                path.style.backgroundColor = "";
+                state.board[y][x].color = "";
+            }
+            currentColor = "";
+            while (paths.length > 0) {
+                paths.pop();
+            }
+            return;
+        }
         if (event.target.style.backgroundColor === event.relatedTarget.style.backgroundColor && event.target.innerHTML === ""
             && event.target.style.backgroundColor === paths[0].style.backgroundColor) {
             let cell = paths.pop();
@@ -138,183 +141,228 @@ function handleMouseOver(event) {
             }
             return;
         }
-    }
-    if (event.target.style.backgroundColor !== event.relatedTarget.style.backgroundColor && event.target.style.backgroundColor !== "") {
-        if (isBlocked && paths[0] !== undefined) {
-            if (event.target.style.backgroundColor === paths[0].style.backgroundColor) {
-                isBlocked = false;
+        if (event.target.style.backgroundColor !== event.relatedTarget.style.backgroundColor && event.target.style.backgroundColor !== "") {
+            if (isBlocked && paths[0] !== undefined) {
+                if (event.target.style.backgroundColor === paths[0].style.backgroundColor) {
+                    isBlocked = false;
+                }
+            }
+            else {
+                isBlocked = true;
+                return;
             }
         }
-        else {
-            isBlocked = true;
+        if (isBlocked) {
             return;
         }
-    }
-    if (isBlocked) {
-        return;
-    }
-    if (event.target.innerHTML !== "") {
-        switch (parseInt(event.target.innerHTML)) {
-            case 1:
-                if (currentColor === "#99ff66") {
-                    event.target.style.backgroundColor = "#99ff66";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+        if (event.target.innerHTML !== "") {
+            switch (parseInt(event.target.innerHTML)) {
+                case 1:
+                    if (currentColor === "#99ff66") {
+                        event.target.style.backgroundColor = "#99ff66";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
-            case 2:
-                if (currentColor === "#ff4d4d") {
-                    event.target.style.backgroundColor = "#ff4d4d";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
-            case 3:
-                if (currentColor === "#47d147") {
-                    event.target.style.backgroundColor = "#47d147";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+                    break;
+                case 2:
+                    if (currentColor === "#ff4d4d") {
+                        event.target.style.backgroundColor = "#ff4d4d";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
-            case 4:
-                if (currentColor === "#4d4dff") {
-                    event.target.style.backgroundColor = "#4d4dff";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
-            case 5:
-                if (currentColor === "#ffff4d") {
-                    event.target.style.backgroundColor = "#ffff4d";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+                    break;
+                case 3:
+                    if (currentColor === "#47d147") {
+                        event.target.style.backgroundColor = "#47d147";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
-            case 6:
-                if (currentColor === "#df80ff") {
-                    event.target.style.backgroundColor = "#df80ff";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
-            case 7:
-                if (currentColor === "#80ffff") {
-                    event.target.style.backgroundColor = "#80ffff";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+                    break;
+                case 4:
+                    if (currentColor === "#4d4dff") {
+                        event.target.style.backgroundColor = "#4d4dff";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
-            case 8:
-                if (currentColor === "#cccccc") {
-                    event.target.style.backgroundColor = "#cccccc";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
-            case 9:
-                if (currentColor === "#ff80bf") {
-                    event.target.style.backgroundColor = "#ff80bf";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+                    break;
+                case 5:
+                    if (currentColor === "#ffff4d") {
+                        event.target.style.backgroundColor = "#ffff4d";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
-            case 10:
-                if (currentColor === "#994d00") {
-                    event.target.style.backgroundColor = "#994d00";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
-            case 11:
-                if (currentColor === "#ffb366") {
-                    event.target.style.backgroundColor = "#ffb366";
-                    state.board[y][x].color = currentColor;
-                    currentColor = "";
-                }
-                else {
-                    for (let path of paths) {
-                        path.style.backgroundColor = "";
+                    break;
+                case 6:
+                    if (currentColor === "#df80ff") {
+                        event.target.style.backgroundColor = "#df80ff";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
                     }
-                    currentColor = "";
-                }
-                break;
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
+                    }
+                    break;
+                case 7:
+                    if (currentColor === "#80ffff") {
+                        event.target.style.backgroundColor = "#80ffff";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
+                    }
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
+                    }
+                    break;
+                case 8:
+                    if (currentColor === "#cccccc") {
+                        event.target.style.backgroundColor = "#cccccc";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
+                    }
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
+                    }
+                    break;
+                case 9:
+                    if (currentColor === "#ff80bf") {
+                        event.target.style.backgroundColor = "#ff80bf";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
+                    }
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
+                    }
+                    break;
+                case 10:
+                    if (currentColor === "#994d00") {
+                        event.target.style.backgroundColor = "#994d00";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
+                    }
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
+                    }
+                    break;
+                case 11:
+                    if (currentColor === "#ffb366") {
+                        event.target.style.backgroundColor = "#ffb366";
+                        state.board[y][x].color = currentColor;
+                        currentColor = "";
+                    }
+                    else {
+                        for (let path of paths) {
+                            let x, y;
+                            x = path.parentNode.rowIndex;
+                            y = path.cellIndex;
+                            path.style.backgroundColor = "";
+                            state.board[y][x].color = "";
+                        }
+                        currentColor = "";
+                    }
+                    break;
+            }
+            while (paths.length > 0) {
+                paths.pop();
+            }
+            return;
         }
-        while (paths.length > 0) {
-            paths.pop();
-        }
-        if (checkWin()) {
-            alert("You win!!");
-        }
-        return;
+        event.target.style.backgroundColor = currentColor;
+        state.board[y][x].color = currentColor;
+        paths.push(event.target);
     }
-    event.target.style.backgroundColor = currentColor;
-    state.board[y][x].color = currentColor;
-    paths.push(event.target);
+    return;
 }
 delegate(main, "mouseover", "td", handleMouseOver);
 
 function handleMouseUp() {
     handleMouseOver(event);
+    if (checkWin()) {
+        alert("You win!!");
+    }
 }
 delegate(main, "mouseup", "td", handleMouseUp);
 
