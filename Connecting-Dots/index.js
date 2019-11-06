@@ -5,7 +5,7 @@ import { delegate } from './utils.js';
 const main = document.querySelector("main");
 const buttons = document.querySelectorAll("button");
 
-let state, table;
+let state, table, saveButton, loadButton, savedMatrix;
 
 for (let button of buttons) {
     button.addEventListener("click", (event) => {
@@ -15,18 +15,41 @@ for (let button of buttons) {
                 render(main, state);
                 table = document.querySelector("table");
                 addEventListenerToTableElement();
+                saveButton = document.querySelector("#s");
+                loadButton = document.querySelector("#l");
+
+                saveButton.addEventListener("click", () => {
+                    if(savedMatrix === undefined) {
+                        savedMatrix = state.board;
+                    }
+                    else if(confirm("A saved game already exists. Do you wish to proceed anyway and overwrite it?")) {
+                        savedMatrix = state.board;
+                    }
+                });
                 break;
             case "Medium":
                 state = new AppState(Difficulty.MEDIUM);
                 render(main, state);
                 table = document.querySelector("table");
                 addEventListenerToTableElement();
+                saveButton = document.querySelector("#s");
+                loadButton = document.querySelector("#l");
+
+                saveButton.addEventListener("click", () => {
+                    savedMatrix = state.board;
+                });
                 break;
             case "Hard":
                 state = new AppState(Difficulty.HARD);
                 render(main, state);
                 table = document.querySelector("table");
                 addEventListenerToTableElement();
+                saveButton = document.querySelector("#s");
+                loadButton = document.querySelector("#l");
+
+                saveButton.addEventListener("click", () => {
+                    savedMatrix = state.board;
+                });
                 break;
         }
     });

@@ -8,8 +8,8 @@ td {
     border-collapse: collapse; 
     cursor: pointer;
     margin: 0;
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
     box-sizing: border-box;
     font-weight: bold;
     text-align: center;
@@ -36,6 +36,48 @@ button:hover {
 	background-color:#408c99;
 }
 button:active {
+	position:relative;
+	top:1px;
+}
+
+#s {
+	margin-left: 1%;
+	background-color:#44c767;
+	border-radius:15px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 16px;
+	text-decoration:none;
+	text-shadow:-1px -1px 4px #2f6627;
+}
+#s:hover {
+	background-color:#5cbf2a;
+}
+#s:active {
+	position:relative;
+	top:1px;
+}
+
+#l {
+	margin-left: 1%;
+	background-color:#44c767;
+	border-radius:15px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 16px;
+	text-decoration:none;
+	text-shadow:-1px -1px 4px #2f6627;
+}
+#l:hover {
+	background-color:#5cbf2a;
+}
+#l:active {
 	position:relative;
 	top:1px;
 }

@@ -1,7 +1,11 @@
 export function render(root, state) {
-    let html = "<table>"
+    let html = "<br>";
+    html += "<table>";
     html += state.board.map(renderRow).join("");
     html += "</table>";
+    html += "<br>";
+    html += "<button id=\"s\" type=\"button\">Save</button>";
+    html += "<button id=\"l\" type=\"button\">Load</button>";
     root.innerHTML = html;
 }
 
