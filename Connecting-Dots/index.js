@@ -133,7 +133,7 @@ function handleMouseOver(event) {
             return;
         }
         if (event.target.style.backgroundColor === event.relatedTarget.style.backgroundColor && event.target.innerHTML === ""
-            && event.target.style.backgroundColor === paths[0].style.backgroundColor) {
+            && event.target.style.backgroundColor === paths[0].style.backgroundColor && event.target === paths[paths.length-2]) {
             let cell = paths.pop();
             if (cell !== event.target && cell !== undefined) {
                 cell.style.backgroundColor = "";
@@ -350,9 +350,11 @@ function handleMouseOver(event) {
             }
             return;
         }
-        event.target.style.backgroundColor = currentColor;
-        state.board[y][x].color = currentColor;
-        paths.push(event.target);
+        if(event.target.style.backgroundColor === "") {
+            event.target.style.backgroundColor = currentColor;
+            state.board[y][x].color = currentColor;
+            paths.push(event.target);
+        }
     }
     return;
 }
