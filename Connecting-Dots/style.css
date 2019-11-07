@@ -16,7 +16,7 @@ td {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-button {
+#a,#b,#c {
 	box-shadow: -2px -2px 5px 1px #276873;
 	background-color:#599bb3;
 	border-radius:24px;
@@ -32,10 +32,10 @@ button {
 	text-decoration:none;
 	text-shadow:-2px 0px 14px #3d768a;
 }
-button:hover {
+#a:hover,#b:hover,#c:hover {
 	background-color:#408c99;
 }
-button:active {
+#a:active,#b:active,#c:active {
 	position:relative;
 	top:1px;
 }

@@ -1,11 +1,38 @@
 import { AppState, Difficulty } from './state.js';
-import { render } from './render.js';
+import { render, renderFromSaved } from './render.js';
 import { delegate } from './utils.js';
 
 const main = document.querySelector("main");
 const buttons = document.querySelectorAll("button");
+const saveButton = document.querySelector("#s");
+const loadButton = document.querySelector("#l");
 
-let state, table, saveButton, loadButton, savedMatrix;
+let state, table, savedState;
+
+saveButton.addEventListener("click", () => {
+    if (state !== undefined && savedState === undefined) {
+        localStorage.setItem("savedState", JSON.stringify(state));
+    }
+    else if (savedState !== undefined && confirm("A saved game already exists. Do you wish to proceed anyway and overwrite it?")) {
+        localStorage.setItem("savedState", JSON.stringify(state));
+    }
+    else {
+        alert("Nothing to save!");
+    }
+});
+loadButton.addEventListener("click", () => {
+    savedState = JSON.parse(localStorage.getItem("savedState"))
+    if (savedState === null) {
+        alert("Nothing to load!");
+    }
+    else if (confirm("Your current status will be overwritten. Do you wish to proceed anyway?")) {
+        state = new AppState(savedState.difficulty);
+        render(main, state);
+        table = document.querySelector("table");
+        addEventListenerToTableElement();
+        renderFromSaved(savedState, state);
+    }
+});
 
 for (let button of buttons) {
     button.addEventListener("click", (event) => {
@@ -15,41 +42,18 @@ for (let button of buttons) {
                 render(main, state);
                 table = document.querySelector("table");
                 addEventListenerToTableElement();
-                saveButton = document.querySelector("#s");
-                loadButton = document.querySelector("#l");
-
-                saveButton.addEventListener("click", () => {
-                    if(savedMatrix === undefined) {
-                        savedMatrix = state.board;
-                    }
-                    else if(confirm("A saved game already exists. Do you wish to proceed anyway and overwrite it?")) {
-                        savedMatrix = state.board;
-                    }
-                });
                 break;
             case "Medium":
                 state = new AppState(Difficulty.MEDIUM);
                 render(main, state);
                 table = document.querySelector("table");
                 addEventListenerToTableElement();
-                saveButton = document.querySelector("#s");
-                loadButton = document.querySelector("#l");
-
-                saveButton.addEventListener("click", () => {
-                    savedMatrix = state.board;
-                });
                 break;
             case "Hard":
                 state = new AppState(Difficulty.HARD);
                 render(main, state);
                 table = document.querySelector("table");
                 addEventListenerToTableElement();
-                saveButton = document.querySelector("#s");
-                loadButton = document.querySelector("#l");
-
-                saveButton.addEventListener("click", () => {
-                    savedMatrix = state.board;
-                });
                 break;
         }
     });
@@ -156,7 +160,7 @@ function handleMouseOver(event) {
             return;
         }
         if (event.target.style.backgroundColor === event.relatedTarget.style.backgroundColor && event.target.innerHTML === ""
-            && event.target.style.backgroundColor === paths[0].style.backgroundColor && event.target === paths[paths.length-2]) {
+            && event.target.style.backgroundColor === paths[0].style.backgroundColor && event.target === paths[paths.length - 2]) {
             let cell = paths.pop();
             if (cell !== event.target && cell !== undefined) {
                 cell.style.backgroundColor = "";
@@ -373,7 +377,7 @@ function handleMouseOver(event) {
             }
             return;
         }
-        if(event.target.style.backgroundColor === "") {
+        if (event.target.style.backgroundColor === "") {
             event.target.style.backgroundColor = currentColor;
             state.board[y][x].color = currentColor;
             paths.push(event.target);
