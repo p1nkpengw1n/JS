@@ -141,15 +141,18 @@ function handleMouseOver(event) {
     event.preventDefault();
     if (paths.length > 0) {
 
-        let x, y;
+        let x, y, z, w;
         x = event.target.parentNode.rowIndex;
         y = event.target.cellIndex;
+        z,w = undefined;
         if (event.relatedTarget !== null) {
-            let z, w;
             z = event.relatedTarget.parentNode.rowIndex;
             w = event.relatedTarget.cellIndex;
-
             if (Math.abs(x - z) === 1 && Math.abs(y - w) === 1) {
+                return;
+            }
+            let lastValidCell = paths[paths.length-1];
+            if(z !== lastValidCell.parentNode.rowIndex || w !== lastValidCell.cellIndex) {
                 return;
             }
         }
