@@ -144,7 +144,15 @@ function handleMouseOver(event) {
         let x, y;
         x = event.target.parentNode.rowIndex;
         y = event.target.cellIndex;
+        if (event.relatedTarget !== null) {
+            let z, w;
+            z = event.relatedTarget.parentNode.rowIndex;
+            w = event.relatedTarget.cellIndex;
 
+            if (Math.abs(x - z) === 1 && Math.abs(y - w) === 1) {
+                return;
+            }
+        }
         if (event.buttons !== 1 || (event.buttons === 1 && event.target.innerHTML !== "" && event.target.style.backgroundColor !== "")) {
             for (let path of paths) {
                 let x, y;
